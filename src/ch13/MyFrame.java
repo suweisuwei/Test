@@ -19,7 +19,9 @@ public class MyFrame extends JFrame{
         new MyFrame().setVisible(true);
     }
     public MyFrame(){
-        setBounds(0,0,400,300);
+        int width = Toolkit.getDefaultToolkit().getScreenSize().width;
+        int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+        setBounds(width - 200,height - 150,400,300);
         Container container = getContentPane();
         container.setLayout(null);
         JLabel jl = new JLabel("这是一个JFrame窗体");

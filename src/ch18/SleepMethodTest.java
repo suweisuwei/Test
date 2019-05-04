@@ -6,6 +6,8 @@ import java.util.Random;
 
 public class SleepMethodTest extends JFrame {
     private Thread t;
+    int x = 30;                                         //定义初始坐标
+    int y = 50;
     //定义颜色数组
     private static Color[] color = {Color.BLACK,Color.BLUE,Color.CYAN,Color.GREEN,Color.ORANGE,Color.YELLOW,Color.RED,Color.PINK,Color.LIGHT_GRAY};
     private static final Random rand = new Random();                //创建随机对象
@@ -13,27 +15,15 @@ public class SleepMethodTest extends JFrame {
         return color[rand.nextInt(color.length)];
     }
     public SleepMethodTest(){
-        t = new Thread(new Runnable() {                         //创建匿名线程对象
-            int x = 30;                                         //定义初始坐标
-            int y = 50;
-            public void run() {                                 //覆盖线程接口方法
+        t = new Thread(()->{                                 //覆盖线程接口方法
                 while (true){                                   //无限循环
                     try{
                         Thread.sleep(100);                //线程休眠0.1秒
+                        repaint();
                     }catch (InterruptedException e){
                         e.printStackTrace();
                     }
-                    //获取组件绘图上下文对象
-                    Image bg = createImage(100, 100);
-                    Graphics graphics = bg.getGraphics();
-                    graphics.setColor(getC());                  //设置绘图颜色
-                    //绘制直线并递增垂直坐标
-                    graphics.drawLine(x,y,100,y++);
-                    if (y>= 80){
-                        y = 50;
-                    }
                 }
-            }
         });
         t.start();
     }
@@ -48,5 +38,16 @@ public class SleepMethodTest extends JFrame {
         frame.setVisible(true);
     }
 
-
+    @Override
+    public void paint(Graphics g) {
+//        //获取组件绘图上下文对象
+//        Image bg = createImage(100, 100);
+//        Graphics graphics = getGraphics();
+        g.setColor(getC());                  //设置绘图颜色
+        //绘制直线并递增垂直坐标
+        g.drawLine(x,y,100,y++);
+        if (y>= 80){
+            y = 50;
+        }
+    }
 }
